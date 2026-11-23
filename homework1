@@ -1,0 +1,59 @@
+def calculate(self, operation, a, b):
+
+    basic_operations = {
+        "+": lambda: a + b,
+        "-": lambda: a - b,
+        "*": lambda: a * b,
+        "/": lambda: a / b,
+        "**": lambda: a ** b,
+        "%": lambda: a % b
+    }
+
+    math_operations = {
+        "sqrt": lambda: math.sqrt(a),
+        "factorial": lambda: math.factorial(a),
+        "log": lambda: math.log(a),
+        "log10": lambda: math.log10(a),
+        "sin": lambda: math.sin(math.radians(a)),
+        "cos": lambda: math.cos(math.radians(a)),
+        "tan": lambda: math.tan(math.radians(a))
+    }
+
+    if operation in basic_operations:
+
+        if operation in ["/", "%"] and b == 0:
+            print("Деление на ноль!")
+            return None
+
+        result = basic_operations[operation]()
+
+    elif operation in math_operations:
+
+        if operation == "sqrt" and a < 0:
+            print("Нельзя извлечь корень из отрицательного числа")
+            return None
+
+        if operation in ["log", "log10"] and a <= 0:
+            print("Аргумент логарифма должен быть положительным")
+            return None
+
+        if operation == "factorial" and (a < 0 or not isinstance(a, int)):
+            print("Факториал определён только для целых неотрицательных чисел")
+            return None
+
+        result = math_operations[operation]()
+
+    elif operation == "pi":
+        result = math.pi
+
+    elif operation == "e":
+        result = math.e
+
+    else:
+        print("Неизвестная операция")
+        return None
+
+    self.last_result = result
+    self.history.append(f"{a} {operation} {b} = {result}")
+
+    return result
